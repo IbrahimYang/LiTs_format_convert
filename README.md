@@ -1,2 +1,11 @@
 # LiTs_format_convert
-convert nrrd,nii,dicom to .png .mat .bmp
+
+python code convert [*.nrrd,*.nii,*.dicom] to [*.mat,*.png,*.bmp] 
+
+## Dependence
+
+* pynrrd
+* PyNIfTI
+* PIL
+
+
