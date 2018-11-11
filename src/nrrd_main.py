@@ -12,18 +12,30 @@ History:
 """
 from __future__ import print_function
 
+import sys
+sys.path.append("..")
 import nrrd_convert
 import os
 import shutil
 
+"""
+Function:     main
+Description:  convert nrrd image to ./mat ./label ./vision ./txt
+Calls:        nrrd_convert
+Called By:    none
+Input:        none
+Output:       none
+Return:       ./*mat ./*label ./*vision ./*txt
+Others:       none
+"""
 if __name__ == '__main__':
     my_nrrd_convert = nrrd_convert.nrrd_convert()
 
-    dirpath = "/home/ibrahim/dataset/2018.9.21.yyl"
-    savepath = "/home/ibrahim/dataset/2018.9.21.yyl_mat"
-    img_path = "/home/ibrahim/dataset/2018.9.21.yyl_label"
-    vision_path = "/home/ibrahim/dataset/2018.9.21.yyl_vision"
-    txtpath = "/home/ibrahim/dataset/2018.9.21.yyl.txt"
+    dirpath =       "/home/deepliver/ibrahim/dataset/100235663/100235663"
+    savepath =      "/home/deepliver/ibrahim/dataset/100235663/100235663_mat"
+    img_path =      "/home/deepliver/ibrahim/dataset/100235663/100235663_label"
+    vision_path =   "/home/deepliver/ibrahim/dataset/100235663/100235663_vision"
+    txtpath =       "/home/deepliver/ibrahim/dataset/100235663/100235663.txt"
 
     if os.path.exists(savepath):
         shutil.rmtree(savepath)

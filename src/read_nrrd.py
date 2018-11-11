@@ -17,9 +17,17 @@ import os
 import shutil
 import numpy as np
 
+"""
+Function:     main
+Description:  read single nrrd data print shape of it
+Calls:        pynrrd
+Called By:    none
+Input:        none
+Output:       none
+Return:       none
+Others:       none
+"""
 if __name__ == '__main__':
-    # my_nrrd_convert = nrrd_convert.nrrd_convert()
-
     dirpath = "/home/ibrahim/dataset/2018.9.21.yyl/186967/7 Abdomen_V  1.5  B31f_2.nrrd"
     single_data, ops = nrrd.read(dirpath)
     print(single_data)

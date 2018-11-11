@@ -12,23 +12,26 @@ History:
 """
 from __future__ import print_function
 
+import sys
+sys.path.append("..")
 import nrrd_convert
 import os
 import shutil
 
 if __name__ == '__main__':
-    input_dir = "/home/ibrahim/Desktop/50"
-    savepath = "/home/ibrahim/Desktop"
-
-    # if os.path.exists(savepath):
-    #     shutil.rmtree(savepath)
-    # os.makedirs(savepath)
+    input_dir = "/home/deepliver/Desktop/seg_liver/V"
+    savep_dir = "/home/deepliver/Desktop/liver_seg"
+    #
+    # if os.path.exists(savep_dir):
+    #     shutil.rmtree(savep_dir)
+    # os.makedirs(savep_dir)
 
     my_nrrd_convert = nrrd_convert.nrrd_convert()
-    my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, nrrd_dir=savepath)
-    # for i in range(0, 1):
+    my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, nrrd_dir=savep_dir)
+    #
+    # for i in range(0, 2):
     #     dir_now = input_dir + str(i)
-    #     my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, nrrd_dir=savepath)
+    #     my_nrrd_convert.bmp2nrrd(origin_dir=dir_now, nrrd_dir=savep_dir)
 
 
 

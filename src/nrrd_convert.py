@@ -12,6 +12,7 @@ History:
 """
 from __future__ import print_function
 
+import cv2
 import os
 import nrrd
 import scipy.io as scio
@@ -76,7 +77,7 @@ class nrrd_convert(object):
         """
         if os.path.exists(txt_dir):
             os.remove(txt_dir)
-        inference_adress = file(txt_dir, "a+")
+        inference_adress = open(txt_dir, 'w')
         for root, dirs, files in os.walk(origin_dir):
             for single_file in files:
                 apath = os.path.join(root, single_file)
@@ -208,27 +209,104 @@ class nrrd_convert(object):
         Returns:
           save .nrrd format in nrrd_dir
         """
-        dirpath = "./7 Abdomen_V  1.5  B31f_2.nrrd"
+        dirpath = "/home/deepliver/ibrahim/dataset/100235663/100235663/A/302 5mm stnd C.nrrd"
         real_header = nrrd.read_header(dirpath)    #read header
 
         for root, dirs, files in os.walk(origin_dir):
-            files = sorted(files, key=lambda x: int(x.split('.')[0]))
-            first_path = os.path.join(root, files[0])
-            first_image = np.array(Image.open(first_path))
-            nrrd_numpy = np.zeros((np.shape(first_image)[0], np.shape(first_image)[1], len(files)))
-            filename = nrrd_dir + '/' + str(root.split('/')[-1]) + '.nrrd'
-            print(nrrd_numpy.shape)
-            for i, single_file in enumerate(files):
-                apath = os.path.join(root, single_file)
-                if apath.split('.')[-1] in self.png_image:       #png iamge
-                    image = np.array(Image.open(apath))
-                    nrrd_numpy[:, :, i] = image
-                elif apath.split('.')[-1] in self.bmp_image:      #bmp iamge
-                    image = np.array(Image.open(apath))
-                    nrrd_numpy[:, :, i] = image
-                else:
-                    pass
-            nrrd.write(filename, nrrd_numpy, real_header)
-            # single_data, ops = nrrd.read(filename)
-            # print(single_data)
-            # print(ops)
+            if files != []:
+                files = sorted(files, key=lambda x: int(x.split('.')[0]))
+
+                first_path = os.path.join(root, files[1])
+                first_image = np.array(Image.open(first_path))
+                nrrd_numpy = np.zeros((np.shape(first_image)[0], np.shape(first_image)[1], len(files)))
+                filename = nrrd_dir + '/' + str(root.split('/')[-1]) + '.nrrd'
+                print(nrrd_numpy.shape)
+                for i, single_file in enumerate(files):
+                    apath = os.path.join(root, single_file)
+                    if apath.split('.')[-1] in self.png_image:  # png iamge
+                        image = np.array(Image.open(apath))
+                        nrrd_numpy[:, :, i] = image
+                    elif apath.split('.')[-1] in self.bmp_image:  # bmp iamge
+                        image = np.array(Image.open(apath))
+                        nrrd_numpy[:, :, i] = image
+                    else:
+                        pass
+                nrrd.write(filename, nrrd_numpy, real_header)
+                print(filename)
+                # single_data, ops = nrrd.read(filename)
+                # print(single_data)
+                # print(ops)
+            else:
+                pass
+
+    def thresholding(self, origin_dir, save_dir):
+        """
+        Function:
+            thresholding(self, origin_dir, save_dir)
+        Parameters:
+          origin_dir: origin .png or .bmp path
+          save_dir: .png or .bmp after thresholding
+        Returns:
+          binary image
+        """
+        for root, dirs, files in os.walk(origin_dir):
+            for file in files:
+                apath = os.path.join(root, file)
+                save_dir_now = save_dir + '/' + str(root.split('/')[-1])
+                self.clean_mkdir(save_dir_now)
+
+                if apath.split('.')[-1] in self.png_image:
+                    img = cv2.imread(apath, 0)
+                    img = cv2.medianBlur(img, 5)
+                    ret, th = cv2.threshold(img, 240, 255, cv2.THRESH_BINARY)
+                    cv2.imwrite(save_dir + str(file), th)
+
+
+    def png2nrrd(self, origin_dir, origin_nrrd_dir, nrrd_dir):
+        """
+        Function:
+            convert png to nrrd
+        Parameters:
+          origin_dir: origin .png or .bmp path
+          origin_nrrd_dir: origin nrrd dir
+          nrrd_dir: save .nrrd format label
+        Returns:
+          save .nrrd format in nrrd_dir
+        """
+
+        # dirpath = origin_nrrd_dir
+        # real_header = nrrd.read_header(dirpath)  # read header
+
+        for root, dirs, files in os.walk(origin_dir):
+            if files != []:
+                files = sorted(files, key=lambda x: int(x.split('.')[0]))
+                first_path = os.path.join(root, files[0])
+                first_image = np.array(Image.open(first_path))
+                nrrd_numpy = np.zeros((np.shape(first_image)[0], np.shape(first_image)[1], len(files)))
+                filename = nrrd_dir + '/' + str(root.split('/')[-1]) + '.nrrd'
+
+                print(nrrd_numpy.shape)
+                for i, single_file in enumerate(files):
+                    apath = os.path.join(root, single_file)
+                    if apath.split('.')[-1] in self.png_image:  # png iamge
+                        image = np.array(Image.open(apath))
+                        nrrd_numpy[:, :, i] = image
+                    elif apath.split('.')[-1] in self.bmp_image:  # bmp iamge
+                        image = np.array(Image.open(apath))
+                        nrrd_numpy[:, :, i] = image
+                    else:
+                        pass
+
+                for root2, dirs2, files2 in os.walk(origin_nrrd_dir + str(root.split('/')[-1])):
+                    for single_file_2 in files2:
+                        path_2 = os.path.join(root2, single_file_2)
+                        if path_2.split('.')[-1] in self.nrrd_image:
+                            if path_2.split('-')[-1] in self.nrrd_label:
+                                pass
+                            else:
+                                real_header = nrrd.read_header(path_2)  # read header
+                                nrrd.write(filename, nrrd_numpy, real_header)
+                                print(filename)
+                                print(path_2)
+            else:
+                pass
