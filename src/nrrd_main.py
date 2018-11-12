@@ -15,6 +15,7 @@ from __future__ import print_function
 import sys
 sys.path.append("..")
 import nrrd_convert
+import time
 
 """
 Function:     main
@@ -27,14 +28,21 @@ Return:       ./*.mat ./*.label ./*.vision ./*.txt
 Others:       none
 """
 if __name__ == '__main__':
+    standard_adress = 1
+    if standard_adress:
+        dir_path = "../liver_database/1-input_nrrd"
+        save_path = "../liver_database/2-output_volumes/mat"
+        img_path = "../liver_database/2-output_volumes/label"
+        vision_path = "../liver_database/2-output_volumes/vision"
+        txt_path = "../liver_database/2-output_volumes/" + str(time.strftime("%I:%M:%S_%d-%m-%Y")) + ".txt"
+    else:
+        dir_path = "/home/deepliver/ibrahim/dataset/100235663/100235663"
+        save_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_mat"
+        img_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_label"
+        vision_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_vision"
+        txt_path = "/home/deepliver/ibrahim/dataset/100235663/100235663.txt"
+
     my_nrrd_convert = nrrd_convert.nrrd_convert()
-
-    dir_path = "/home/deepliver/ibrahim/dataset/100235663/100235663"
-    save_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_mat"
-    img_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_label"
-    vision_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_vision"
-    txt_path = "/home/deepliver/ibrahim/dataset/100235663/100235663.txt"
-
     my_nrrd_convert.force_mkdir(save_path)
     my_nrrd_convert.force_mkdir(img_path)
     my_nrrd_convert.force_mkdir(vision_path)

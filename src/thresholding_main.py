@@ -27,8 +27,13 @@ Return:       ./*.png
 Others:       none
 """
 if __name__ == '__main__':
-    input_dir = "/home/ibrahim/Desktop/th_test"
-    save_dir = "/home/ibrahim/Desktop/th_test_out"
+    standard_adress = 1
+    if standard_adress:
+        input_dir = "../liver_database/3-input_result"
+        save_dir = "../liver_database/4-input_result_th"
+    else:
+        input_dir = "/home/ibrahim/Desktop/th_test"
+        save_dir = "/home/ibrahim/Desktop/th_test_out"
 
     my_nrrd_convert = nrrd_convert.nrrd_convert()
     my_nrrd_convert.force_mkdir(save_dir)
