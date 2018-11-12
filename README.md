@@ -13,7 +13,7 @@ convert [.mat,.png,.bmp] to [.nrrd,.nii,.dicom] from 3D display
 * PIL
 
 ## dir 
-
+<pre>
 root<br>
 |___src<br>
 |	|___python_code <br>
@@ -26,4 +26,4 @@ root<br>
 |	|___5-output_nrrd<br>
 |<br>
 |___data_template<br>
-
+<code>
