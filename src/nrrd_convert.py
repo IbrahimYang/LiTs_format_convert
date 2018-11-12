@@ -18,6 +18,7 @@ import nrrd
 import scipy.io as scio
 import numpy as np
 from PIL import Image
+import shutil
 
 class nrrd_convert(object):
     """
@@ -58,6 +59,20 @@ class nrrd_convert(object):
         if os.path.exists(path) == 0:
             os.makedirs(path)
             print('creat_path:', path)
+
+    def force_mkdir(self, path):
+        """
+        Function:
+            clean_mkdir
+        Parameters:
+          path: input the path need to clean
+        Returns:
+          PIL format image
+        """
+        if os.path.exists(path):
+            shutil.rmtree(path)
+        os.makedirs(path)
+        print('force_creat_path:', path)
 
     def nrrd_image2mat(self, origin_dir, save_dir, vision_dir, image_dir, txt_dir):
         """
@@ -259,7 +274,7 @@ class nrrd_convert(object):
                     img = cv2.imread(apath, 0)
                     img = cv2.medianBlur(img, 5)
                     ret, th = cv2.threshold(img, 240, 255, cv2.THRESH_BINARY)
-                    cv2.imwrite(save_dir + str(file), th)
+                    cv2.imwrite(save_dir_now + '/' + str(file), th)
 
 
     def png2nrrd(self, origin_dir, origin_nrrd_dir, nrrd_dir):

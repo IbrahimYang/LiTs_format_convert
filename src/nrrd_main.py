@@ -25,27 +25,22 @@ Calls:        nrrd_convert
 Called By:    none
 Input:        none
 Output:       none
-Return:       ./*mat ./*label ./*vision ./*txt
+Return:       ./*.mat ./*.label ./*.vision ./*.txt
 Others:       none
 """
 if __name__ == '__main__':
     my_nrrd_convert = nrrd_convert.nrrd_convert()
 
-    dirpath =       "/home/deepliver/ibrahim/dataset/100235663/100235663"
-    savepath =      "/home/deepliver/ibrahim/dataset/100235663/100235663_mat"
-    img_path =      "/home/deepliver/ibrahim/dataset/100235663/100235663_label"
-    vision_path =   "/home/deepliver/ibrahim/dataset/100235663/100235663_vision"
-    txtpath =       "/home/deepliver/ibrahim/dataset/100235663/100235663.txt"
+    dir_path = "/home/deepliver/ibrahim/dataset/100235663/100235663"
+    save_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_mat"
+    img_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_label"
+    vision_path = "/home/deepliver/ibrahim/dataset/100235663/100235663_vision"
+    txt_path = "/home/deepliver/ibrahim/dataset/100235663/100235663.txt"
 
-    if os.path.exists(savepath):
-        shutil.rmtree(savepath)
-    if os.path.exists(img_path):
-        shutil.rmtree(img_path)
-    if os.path.exists(vision_path):
-        shutil.rmtree(vision_path)
+    my_nrrd_convert.force_mkdir(save_path)
+    my_nrrd_convert.force_mkdir(img_path)
+    my_nrrd_convert.force_mkdir(vision_path)
+    my_nrrd_convert.nrrd_image2mat(origin_dir=dir_path, vision_dir=vision_path, save_dir=save_path,
+                                   image_dir=img_path, txt_dir=txt_path)
 
-    os.makedirs(savepath)
-    os.makedirs(img_path)
-    os.makedirs(vision_path)
 
-    my_nrrd_convert.nrrd_image2mat(origin_dir=dirpath, vision_dir=vision_path, save_dir=savepath, image_dir=img_path, txt_dir = txtpath)
