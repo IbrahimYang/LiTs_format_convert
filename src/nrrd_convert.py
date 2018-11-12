@@ -214,24 +214,25 @@ class nrrd_convert(object):
                     else:
                         pass
 
-    def bmp2nrrd(self, origin_dir, nrrd_dir):
+    def bmp2nrrd(self, origin_dir, template_dir, nrrd_dir):
         """
         Function:
             only convert nrrd label
         Parameters:
           origin_dir: origin .png or .bmp path
+          template_dir: input template
           nrrd_dir: save .nrrd format label
         Returns:
           save .nrrd format in nrrd_dir
         """
-        dirpath = "/home/deepliver/ibrahim/dataset/100235663/100235663/A/302 5mm stnd C.nrrd"
-        real_header = nrrd.read_header(dirpath)    #read header
+
+        real_header = nrrd.read_header(template_dir)    #read header
 
         for root, dirs, files in os.walk(origin_dir):
-            if files != []:
+            if files:
+                print(files)
                 files = sorted(files, key=lambda x: int(x.split('.')[0]))
-
-                first_path = os.path.join(root, files[1])
+                first_path = os.path.join(root, files[0])
                 first_image = np.array(Image.open(first_path))
                 nrrd_numpy = np.zeros((np.shape(first_image)[0], np.shape(first_image)[1], len(files)))
                 filename = nrrd_dir + '/' + str(root.split('/')[-1]) + '.nrrd'
@@ -248,9 +249,6 @@ class nrrd_convert(object):
                         pass
                 nrrd.write(filename, nrrd_numpy, real_header)
                 print(filename)
-                # single_data, ops = nrrd.read(filename)
-                # print(single_data)
-                # print(ops)
             else:
                 pass
 

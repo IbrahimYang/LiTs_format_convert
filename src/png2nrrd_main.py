@@ -15,8 +15,6 @@ from __future__ import print_function
 import sys
 sys.path.append("..")
 import nrrd_convert
-import os
-import shutil
 
 """
 Function:     main
@@ -29,16 +27,12 @@ Return:       ./*.nrrd
 Others:       none
 """
 if __name__ == '__main__':
-    input_dir = "/home/deepliver/Desktop/seg_liver/V"
-    save_dir = "/home/deepliver/Desktop/liver_seg"
+    input_dir = "/home/ibrahim/Desktop/th_test"
+    save_dir = "/home/ibrahim/Desktop/th_test_out"
+    template_path = "/home/ibrahim/PycharmProjects/LiTs_format_convert/data_template/7 Abdomen_V  1.5  B31f_2.nrrd"
 
     my_nrrd_convert = nrrd_convert.nrrd_convert()
     my_nrrd_convert.force_mkdir(save_dir)
-    my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, nrrd_dir=save_dir)
-
-    # for i in range(0, 2):
-    #     dir_now = input_dir + str(i)
-    #     my_nrrd_convert.bmp2nrrd(origin_dir=dir_now, nrrd_dir=save_dir)
-
+    my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, template_dir=template_path ,nrrd_dir=save_dir)
 
 
