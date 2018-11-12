@@ -274,7 +274,6 @@ class nrrd_convert(object):
                     ret, th = cv2.threshold(img, 240, 255, cv2.THRESH_BINARY)
                     cv2.imwrite(save_dir_now + '/' + str(file), th)
 
-
     def png2nrrd(self, origin_dir, origin_nrrd_dir, nrrd_dir):
         """
         Function:
@@ -286,12 +285,8 @@ class nrrd_convert(object):
         Returns:
           save .nrrd format in nrrd_dir
         """
-
-        # dirpath = origin_nrrd_dir
-        # real_header = nrrd.read_header(dirpath)  # read header
-
         for root, dirs, files in os.walk(origin_dir):
-            if files != []:
+            if files:
                 files = sorted(files, key=lambda x: int(x.split('.')[0]))
                 first_path = os.path.join(root, files[0])
                 first_image = np.array(Image.open(first_path))
@@ -310,16 +305,23 @@ class nrrd_convert(object):
                     else:
                         pass
 
-                for root2, dirs2, files2 in os.walk(origin_nrrd_dir + str(root.split('/')[-1])):
-                    for single_file_2 in files2:
-                        path_2 = os.path.join(root2, single_file_2)
-                        if path_2.split('.')[-1] in self.nrrd_image:
-                            if path_2.split('-')[-1] in self.nrrd_label:
-                                pass
+                path_find = origin_nrrd_dir + '/' + str(root.split('/')[-1])
+                print("path:", path_find)
+                if os.path.exists(path_find):
+                    for root2, dirs2, files2 in os.walk(path_find):
+                        for single_file_2 in files2:
+                            path_2 = os.path.join(root2, single_file_2)
+                            if path_2.split('.')[-1] in self.nrrd_image:
+                                if path_2.split('-')[-1] in self.nrrd_label:     #label
+                                    pass
+                                else:
+                                    real_header = nrrd.read_header(path_2)  # read header
+                                    nrrd.write(filename, nrrd_numpy, real_header)
+                                    print("success match file!:", filename)
                             else:
-                                real_header = nrrd.read_header(path_2)  # read header
-                                nrrd.write(filename, nrrd_numpy, real_header)
-                                print(filename)
-                                print(path_2)
+                                pass
+                else:
+                    print("error: can't match file:", filename)
             else:
                 pass
+

@@ -31,14 +31,14 @@ if __name__ == '__main__':
     if standard_adress:
         input_dir = "../liver_database/4-input_result_th"
         save_dir = "../liver_database/5-output_nrrd"
-        origin_path = "../liver_database/1-input_nrrd"
+        template_path = "../data_template/7 Abdomen_V  1.5  B31f_2.nrrd"
     else:
         input_dir = "/home/ibrahim/Desktop/th_test"
         save_dir = "/home/ibrahim/Desktop/th_test_out"
-        origin_path = "/home/ibrahim/PycharmProjects/LiTs_format_convert/data_template/7 Abdomen_V  1.5  B31f_2.nrrd"
+        template_path = "/home/ibrahim/PycharmProjects/LiTs_format_convert/data_template/7 Abdomen_V  1.5  B31f_2.nrrd"
 
     my_nrrd_convert = nrrd_convert.nrrd_convert()
     my_nrrd_convert.force_mkdir(save_dir)
-    my_nrrd_convert.png2nrrd(origin_dir=input_dir, origin_nrrd_dir=origin_path, nrrd_dir=save_dir)
+    my_nrrd_convert.bmp2nrrd(origin_dir=input_dir, template_dir=template_path, nrrd_dir=save_dir)
 
 
